@@ -14,6 +14,6 @@ interface MovieDao {
     fun insertMovies(movies: List<ResultMovie>)
 
     @Query("SELECT * FROM ResultMovie")
-    fun getMovies(): LiveData<List<ResultMovie>>
+    fun getMovies(): List<ResultMovie>
 
 }

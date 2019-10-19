@@ -1,8 +1,10 @@
 package com.hites.movieapplication.domain
 
+import com.hites.movieapplication.domain.executor.PostExecutionThread
+import com.hites.movieapplication.domain.executor.ThreadExecutor
 import com.hites.movieapplication.domain.model.MoviePoster
-import com.hites.movieapplication.domain.nowplaying.NowPlayingRepository
-import com.hites.movieapplication.domain.nowplaying.NowPlayingUseCase
+import com.hites.movieapplication.domain.interactor.nowplaying.NowPlayingRepository
+import com.hites.movieapplication.domain.interactor.nowplaying.NowPlayingUseCase
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -12,21 +14,27 @@ import org.junit.Test
 
 class NowPlayingUseCaseTest{
     private val nowPlayingRepository: NowPlayingRepository = mockk()
+    private val threadExecutor: ThreadExecutor = mockk()
+    private val postExecutionThread: PostExecutionThread = mockk()
     private val nowPlayingUseCase =
-        NowPlayingUseCase(nowPlayingRepository)
-    private val listMovieLiveData: Observable<List<MoviePoster>> = mockk()
+        NowPlayingUseCase(
+            nowPlayingRepository,
+            threadExecutor,
+            postExecutionThread
+        )
+    private val observableMoviePosterList: Observable<List<MoviePoster>> = mockk()
 
     @Test
     fun `repository returns properly`(){
         // Given
-        every { nowPlayingRepository.getNowPlaying() } returns listMovieLiveData
+        every { nowPlayingRepository.getNowPlaying() } returns observableMoviePosterList
 
         // When
-        val nowPlaying = nowPlayingUseCase.getNowPlaying()
+        val nowPlaying = nowPlayingUseCase.buildUseCaseObservable(null)
 
         // Then
-        assertEquals(nowPlaying, listMovieLiveData)
-        verify{nowPlayingUseCase.getNowPlaying()}
+        assertEquals(nowPlaying, observableMoviePosterList)
+        verify{nowPlayingUseCase.buildUseCaseObservable(null)}
     }
 
 //    @Test

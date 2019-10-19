@@ -1,10 +1,9 @@
 package com.hites.movieapplication.data.repository
 
 import com.hites.movieapplication.data.datasource.DataSourceFactory
-import com.hites.movieapplication.data.model.Movie
 import com.hites.movieapplication.data.model.ResultMovie
 import com.hites.movieapplication.domain.model.MoviePoster
-import com.hites.movieapplication.domain.nowplaying.NowPlayingRepository
+import com.hites.movieapplication.domain.interactor.nowplaying.NowPlayingRepository
 import io.reactivex.Observable
 
 class NowPlayingRepositoryImpl(
