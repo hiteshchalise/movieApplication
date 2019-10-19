@@ -6,8 +6,13 @@ import com.hites.movieapplication.data.model.ResultMovie
 import com.hites.movieapplication.domain.model.MoviePoster
 import io.reactivex.Observable
 
-class LocalDataSource(): DataSource {
+class LocalDataSource(private val movieDao: MovieDao): DataSource {
     override fun getNowPlaying(): Observable<List<ResultMovie>> {
-        TODO("not implemented")
+        val movies = movieDao.getMovies()
+        return if (movies.isEmpty()) {
+            Observable.empty()
+        } else {
+            Observable.just(movies)
+        }
     }
 }

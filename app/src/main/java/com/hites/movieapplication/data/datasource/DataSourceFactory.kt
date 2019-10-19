@@ -16,7 +16,7 @@ class DataSourceFactory(private val movieApiService: MovieApiService,
         return if (time > 10){
             RemoteDataSource(movieApiService, movieDao)
         } else{
-            LocalDataSource()
+            LocalDataSource(movieDao)
         }
     }
 
