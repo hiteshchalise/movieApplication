@@ -5,8 +5,9 @@ import com.hites.movieapplication.domain.executor.ThreadExecutor
 import com.hites.movieapplication.domain.interactor.UseCase
 import com.hites.movieapplication.domain.model.MoviePoster
 import io.reactivex.Observable
+import javax.inject.Inject
 
-class NowPlayingUseCase(
+class NowPlayingUseCase @Inject constructor(
     private val nowPlayingRepository: NowPlayingRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
