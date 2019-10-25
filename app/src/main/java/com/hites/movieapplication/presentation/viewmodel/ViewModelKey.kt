@@ -1,4 +1,4 @@
-package com.hites.movieapplication.presentation
+package com.hites.movieapplication.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

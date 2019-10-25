@@ -4,11 +4,12 @@ import com.hites.movieapplication.data.datasource.local.LocalDataSource
 import com.hites.movieapplication.data.datasource.local.MovieDao
 import com.hites.movieapplication.data.datasource.remote.MovieApiService
 import com.hites.movieapplication.data.datasource.remote.RemoteDataSource
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DataSourceFactory(private val movieApiService: MovieApiService,
-                        private val movieDao: MovieDao){
+class DataSourceFactory @Inject constructor(private val movieApiService: MovieApiService,
+                                            private val movieDao: MovieDao){
 
     var lastUpdateTime = System.currentTimeMillis()
 

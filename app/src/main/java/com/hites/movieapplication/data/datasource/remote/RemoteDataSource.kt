@@ -8,8 +8,9 @@ import com.hites.movieapplication.data.model.ResultMovie
 import com.hites.movieapplication.domain.model.MoviePoster
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class RemoteDataSource(
+class RemoteDataSource @Inject constructor(
     private val apiService: MovieApiService,
     private val movieDao: MovieDao
 ) : DataSource {

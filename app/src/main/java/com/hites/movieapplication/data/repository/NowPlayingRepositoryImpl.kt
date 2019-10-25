@@ -5,9 +5,11 @@ import com.hites.movieapplication.data.model.ResultMovie
 import com.hites.movieapplication.domain.model.MoviePoster
 import com.hites.movieapplication.domain.interactor.nowplaying.NowPlayingRepository
 import io.reactivex.Observable
+import javax.inject.Inject
 
-class NowPlayingRepositoryImpl(
-    private val dataSourceFactory: DataSourceFactory) :
+class NowPlayingRepositoryImpl @Inject constructor(
+    private val dataSourceFactory: DataSourceFactory
+) :
     NowPlayingRepository {
 
     override fun getNowPlaying(): Observable<List<MoviePoster>> {
