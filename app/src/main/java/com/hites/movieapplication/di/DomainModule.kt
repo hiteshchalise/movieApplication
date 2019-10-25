@@ -1,6 +1,5 @@
 package com.hites.movieapplication.di
 
-import androidx.annotation.UiThread
 import com.hites.movieapplication.data.datasource.DataSourceFactory
 import com.hites.movieapplication.data.datasource.executor.JobExecutor
 import com.hites.movieapplication.data.repository.NowPlayingRepositoryImpl
@@ -39,8 +38,6 @@ class DomainModule {
     fun providesNowPlayingUseCase(nowPlayingRepository: NowPlayingRepository,
                                   threadExecutor: ThreadExecutor,
                                   postExecutionThread: PostExecutionThread): NowPlayingUseCase{
-        val nowPlayingUseCase = NowPlayingUseCase(nowPlayingRepository, threadExecutor, postExecutionThread)
-        nowPlayingUseCase.buildUseCaseObservable(null)
-        return nowPlayingUseCase
+        return NowPlayingUseCase(nowPlayingRepository, threadExecutor, postExecutionThread)
     }
 }

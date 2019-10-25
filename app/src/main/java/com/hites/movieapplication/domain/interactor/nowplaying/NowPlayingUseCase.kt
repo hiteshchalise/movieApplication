@@ -1,5 +1,6 @@
 package com.hites.movieapplication.domain.interactor.nowplaying
 
+import android.util.Log
 import com.hites.movieapplication.domain.executor.PostExecutionThread
 import com.hites.movieapplication.domain.executor.ThreadExecutor
 import com.hites.movieapplication.domain.interactor.UseCase

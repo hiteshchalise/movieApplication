@@ -12,9 +12,11 @@ class DataSourceFactory @Inject constructor(private val movieApiService: MovieAp
                                             private val movieDao: MovieDao){
 
     var lastUpdateTime = System.currentTimeMillis()
+    var firstLoading = true
 
     fun getDataSource(time: Int = getTimeDifference()): DataSource {
-        return if (time > 10){
+        return if ((time > 10) or firstLoading){
+            firstLoading = false
             RemoteDataSource(movieApiService, movieDao)
         } else{
             LocalDataSource(movieDao)

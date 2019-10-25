@@ -1,5 +1,6 @@
 package com.hites.movieapplication.presentation.ui
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hites.movieapplication.domain.interactor.DefaultObserver
@@ -14,22 +15,23 @@ class NowPlayingViewModel @Inject constructor(
     private val liveDataNowPlayingList = MutableLiveData<List<MoviePoster>>()
 
     fun loadMoreMovies() {
+        Log.d("MovieApplication", "here")
         nowPlayingUseCase.execute(NowPlayingListObserver(), null)
     }
 
     fun getNowPlayingListLiveData() = liveDataNowPlayingList
 
-    class NowPlayingListObserver: DefaultObserver<List<MoviePoster>>(){
+    inner class NowPlayingListObserver: DefaultObserver<List<MoviePoster>>(){
         override fun onNext(t: List<MoviePoster>) {
-            TODO("not implemented")
+            liveDataNowPlayingList.value = t
         }
 
         override fun onError(e: Throwable) {
-            TODO("not implemented")
+            Log.d("MovieApplication", "Error: ", e)
         }
 
         override fun onComplete() {
-            TODO("not implemented")
+
         }
 
     }

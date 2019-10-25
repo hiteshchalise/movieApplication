@@ -1,5 +1,6 @@
 package com.hites.movieapplication.domain.interactor
 
+import android.util.Log
 import com.hites.movieapplication.domain.executor.PostExecutionThread
 import com.hites.movieapplication.domain.executor.ThreadExecutor
 import io.reactivex.Observable
@@ -16,7 +17,8 @@ abstract class UseCase<T, Params> (private val threadExecutor: ThreadExecutor,
     abstract fun buildUseCaseObservable(params: Params?): Observable<T>
 
     fun execute(observer: DisposableObserver<T>, params: Params?) {
-        val observable = buildUseCaseObservable(params)
+        Log.d("MovieApplication", "onUseCase: here")
+        val observable = this.buildUseCaseObservable(params)
             .subscribeOn(Schedulers.from(threadExecutor))
             .observeOn(postExecutionThread.getScheduler())
 

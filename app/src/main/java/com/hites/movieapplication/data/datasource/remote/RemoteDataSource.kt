@@ -1,5 +1,6 @@
 package com.hites.movieapplication.data.datasource.remote
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.hites.movieapplication.data.datasource.DataSource
 import com.hites.movieapplication.data.datasource.local.MovieDao
@@ -17,8 +18,10 @@ class RemoteDataSource @Inject constructor(
 
     override fun getNowPlaying(): Observable<List<ResultMovie>> {
         return apiService.fetchNowPlaying().doOnNext {
+            Log.d("MovieApplication", "RemoteDataSource: here")
             if (it == null) throw NullPointerException("Expression 'movieDao::insertMovies' must not be null")
-            else movieDao.insertMovies(it)
+            else
+            movieDao.insertMovies(it)
         }
     }
 

@@ -37,13 +37,4 @@ class NowPlayingUseCaseTest{
         verify{nowPlayingUseCase.buildUseCaseObservable(null)}
     }
 
-//    @Test
-//    fun `fetchMore method calls fetchMore in repository`(){
-//        every { nowPlayingRepository.fetchMore() } returns loadingStateLiveData
-//
-//        nowPlayingUseCase.fetchMore()
-//
-//        verify { nowPlayingRepository.fetchMore() }
-//    }
-
 }

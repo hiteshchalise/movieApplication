@@ -1,15 +1,7 @@
 package com.hites.movieapplication.data.repository
 
-import com.hites.movieapplication.AppExecutors
-import com.hites.movieapplication.data.datasource.DataSourceFactory
-import com.hites.movieapplication.data.model.Movie
 import com.hites.movieapplication.data.model.ResultMovie
 import com.hites.movieapplication.domain.model.MoviePoster
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
-import io.reactivex.Observable
-import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Test
 
