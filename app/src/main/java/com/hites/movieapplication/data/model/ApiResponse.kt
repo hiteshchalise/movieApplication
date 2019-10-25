@@ -1,9 +1,9 @@
 package com.hites.movieapplication.data.model
 
-data class ApiResponse<T>(
+data class ApiResponse(
     val dates: Dates,
     val page: Int,
-    val movies: List<T>,
+    val movies: List<ResultMovie>,
     val total_pages: Int,
     val total_results: Int
 )

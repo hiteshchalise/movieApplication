@@ -1,35 +1,23 @@
 package com.hites.movieapplication.domain.interactor
 
-import android.util.Log
-import com.hites.movieapplication.domain.executor.PostExecutionThread
-import com.hites.movieapplication.domain.executor.ThreadExecutor
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DisposableObserver
-import io.reactivex.schedulers.Schedulers
+import com.hites.movieapplication.domain.exception.Failure
+import com.hites.movieapplication.domain.functional.Either
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
-abstract class UseCase<T, Params> (private val threadExecutor: ThreadExecutor,
-                                   private val postExecutionThread: PostExecutionThread
-){
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+abstract class UseCase<out Type, in Params> where Type : Any {
 
-    abstract fun buildUseCaseObservable(params: Params?): Observable<T>
+    abstract suspend fun runs(params: Params?): Either<Failure, Type>
 
-    fun execute(observer: DisposableObserver<T>, params: Params?) {
-        Log.d("MovieApplication", "onUseCase: here")
-        val observable = this.buildUseCaseObservable(params)
-            .subscribeOn(Schedulers.from(threadExecutor))
-            .observeOn(postExecutionThread.getScheduler())
-
-        addDisposable(observable.subscribeWith(observer))
-    }
-
-    private fun addDisposable(disposableObserver: Disposable) {
-        compositeDisposable.add(disposableObserver)
-    }
-
-    fun dispose(){
-        if(!compositeDisposable.isDisposed) compositeDisposable.clear()
+    fun execute(onResult: (Either<Failure, Type>) -> Unit, params: Params?) {
+        val job = CoroutineScope(IO).async {
+            runs(params)
+        }
+        CoroutineScope(Main).launch {
+            onResult.invoke(job.await())
+        }
     }
 }

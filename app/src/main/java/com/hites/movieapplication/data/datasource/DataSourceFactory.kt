@@ -11,8 +11,8 @@ import javax.inject.Singleton
 class DataSourceFactory @Inject constructor(private val movieApiService: MovieApiService,
                                             private val movieDao: MovieDao){
 
-    var lastUpdateTime = System.currentTimeMillis()
-    var firstLoading = true
+    private var lastUpdateTime = System.currentTimeMillis()
+    private var firstLoading = true
 
     fun getDataSource(time: Int = getTimeDifference()): DataSource {
         return if ((time > 10) or firstLoading){

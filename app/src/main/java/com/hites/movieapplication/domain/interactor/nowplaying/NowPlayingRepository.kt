@@ -1,8 +1,10 @@
 package com.hites.movieapplication.domain.interactor.nowplaying
 
+import com.hites.movieapplication.domain.exception.Failure
+import com.hites.movieapplication.domain.functional.Either
 import com.hites.movieapplication.domain.model.MoviePoster
 import io.reactivex.Observable
 
 interface NowPlayingRepository{
-    fun getNowPlaying(): Observable<List<MoviePoster>>
+    fun getNowPlaying(): Either<Failure, List<MoviePoster>>
 }

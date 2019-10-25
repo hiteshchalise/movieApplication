@@ -3,7 +3,6 @@ package com.hites.movieapplication.di
 import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.hites.movieapplication.data.datasource.remote.EnvelopingConverter
 import com.hites.movieapplication.data.datasource.remote.MovieApiService
 import dagger.Module
 import dagger.Provides
@@ -55,9 +54,7 @@ class ApiModule {
     @Singleton
     internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit{
         return Retrofit.Builder()
-            .addConverterFactory(EnvelopingConverter())
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .baseUrl("https://api.themoviedb.org/3/")
             .client(okHttpClient)
             .build()

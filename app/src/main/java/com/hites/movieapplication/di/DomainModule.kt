@@ -35,9 +35,7 @@ class DomainModule {
 
     @Provides
     @Singleton
-    fun providesNowPlayingUseCase(nowPlayingRepository: NowPlayingRepository,
-                                  threadExecutor: ThreadExecutor,
-                                  postExecutionThread: PostExecutionThread): NowPlayingUseCase{
-        return NowPlayingUseCase(nowPlayingRepository, threadExecutor, postExecutionThread)
+    fun providesNowPlayingUseCase(nowPlayingRepository: NowPlayingRepository): NowPlayingUseCase{
+        return NowPlayingUseCase(nowPlayingRepository)
     }
 }
