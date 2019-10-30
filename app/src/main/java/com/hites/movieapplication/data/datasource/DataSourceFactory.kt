@@ -11,24 +11,11 @@ import javax.inject.Singleton
 class DataSourceFactory @Inject constructor(private val movieApiService: MovieApiService,
                                             private val movieDao: MovieDao){
 
-    private var lastUpdateTime = System.currentTimeMillis()
-    private var firstLoading = true
-
-    fun getDataSource(time: Int = getTimeDifference()): DataSource {
-        return if ((time > 10) or firstLoading){
-            firstLoading = false
+    fun getDataSource(cached: Boolean = false): DataSource {
+        return if (!cached){
             RemoteDataSource(movieApiService, movieDao)
         } else{
-//            LocalDataSource(movieDao)
-            RemoteDataSource(movieApiService, movieDao)
+            LocalDataSource(movieDao)
         }
     }
-
-    private fun getTimeDifference(): Int {
-        // This returns difference in minutes
-        val inMinutes = ((lastUpdateTime - System.currentTimeMillis()) * 1000 * 60).toInt()
-        lastUpdateTime = System.currentTimeMillis()
-        return inMinutes
-    }
-
 }

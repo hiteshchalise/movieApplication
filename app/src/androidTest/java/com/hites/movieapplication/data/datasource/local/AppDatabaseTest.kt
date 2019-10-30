@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.hites.movieapplication.data.model.ResultMovie
+import com.hites.movieapplication.data.model.SimpleMovie
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -35,8 +35,8 @@ class AppDatabaseTest{
     @Test
     @Throws(Exception::class)
     fun writeMovieListAndReadMovieList(){
-        val resultMovie = ResultMovie(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
-        val resultMovie2 = ResultMovie(2, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
+        val resultMovie = SimpleMovie(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
+        val resultMovie2 = SimpleMovie(2, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
 
         val resultMovieList = listOf(resultMovie, resultMovie2)
 

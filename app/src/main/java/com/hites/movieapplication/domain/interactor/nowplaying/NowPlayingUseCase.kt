@@ -7,9 +7,12 @@ import com.hites.movieapplication.domain.model.MoviePoster
 
 class NowPlayingUseCase(
     private val nowPlayingRepository: NowPlayingRepository
-) : UseCase<List<MoviePoster>, Void>() {
+) : UseCase<List<MoviePoster>, NowPlayingUseCase.Params>() {
 
-    override suspend fun runs(params: Void?): Either<Failure, List<MoviePoster>> {
-        return nowPlayingRepository.getNowPlaying()
+    override suspend fun runs(params: Params): Either<Failure, List<MoviePoster>> {
+        return nowPlayingRepository.getNowPlaying(params.cached)
     }
+
+
+    data class Params(val cached: Boolean)
 }

@@ -14,8 +14,14 @@ class NowPlayingViewModel @Inject constructor(
     val liveDataNowPlayingList = MutableLiveData<List<MoviePoster>>()
     val failureLiveData = MutableLiveData<Failure>()
 
-    fun loadMoreMovies() {
-        nowPlayingUseCase.execute({it.either(::handleFailure, ::handleNowPlayingList)}, null)
+    fun loadCachedMovies() {
+        nowPlayingUseCase.execute({it.either(::handleFailure, ::handleNowPlayingList)},
+            NowPlayingUseCase.Params(true))
+    }
+
+    fun loadFreshMovies(){
+        nowPlayingUseCase.execute({it.either(::handleFailure, ::handleNowPlayingList)},
+            NowPlayingUseCase.Params(false))
     }
 
     private fun handleNowPlayingList(nowPlayingList: List<MoviePoster>){

@@ -10,9 +10,9 @@ import kotlinx.coroutines.launch
 
 abstract class UseCase<out Type, in Params> where Type : Any {
 
-    abstract suspend fun runs(params: Params?): Either<Failure, Type>
+    abstract suspend fun runs(params: Params): Either<Failure, Type>
 
-    fun execute(onResult: (Either<Failure, Type>) -> Unit, params: Params?) {
+    fun execute(onResult: (Either<Failure, Type>) -> Unit, params: Params) {
         val job = CoroutineScope(IO).async {
             runs(params)
         }

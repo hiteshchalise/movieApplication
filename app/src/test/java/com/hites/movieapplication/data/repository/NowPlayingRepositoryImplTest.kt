@@ -1,13 +1,13 @@
 package com.hites.movieapplication.data.repository
 
-import com.hites.movieapplication.data.model.ResultMovie
+import com.hites.movieapplication.data.model.SimpleMovie
 import com.hites.movieapplication.domain.model.MoviePoster
 import junit.framework.Assert.assertTrue
 import org.junit.Test
 
 class NowPlayingRepositoryImplTest {
 
-    private val resultMovie = ResultMovie(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
+    private val resultMovie = SimpleMovie(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
 
     private val moviePoster = MoviePoster(false, 1, "", "", 0.0)
 

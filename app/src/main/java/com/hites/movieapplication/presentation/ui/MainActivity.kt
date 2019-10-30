@@ -3,12 +3,9 @@ package com.hites.movieapplication.presentation.ui
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.hites.movieapplication.R
-import com.hites.movieapplication.domain.exception.Failure
-import com.hites.movieapplication.presentation.viewmodel.ViewModelFactory
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -30,6 +27,6 @@ class MainActivity : DaggerAppCompatActivity() {
         nowPlayingViewModel.failureLiveData.observe(this, Observer{
             Log.e("MovieApplication: ", "Failed: {$it}")
         } )
-        nowPlayingViewModel.loadMoreMovies()
+        nowPlayingViewModel.loadCachedMovies()
     }
 }
