@@ -3,6 +3,7 @@ package com.hites.movieapplication.di
 import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.hites.movieapplication.data.datasource.remote.EnvelopingConverter
 import com.hites.movieapplication.data.datasource.remote.MovieApiService
 import dagger.Module
 import dagger.Provides

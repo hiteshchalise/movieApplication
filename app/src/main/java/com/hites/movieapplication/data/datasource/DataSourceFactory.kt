@@ -19,7 +19,8 @@ class DataSourceFactory @Inject constructor(private val movieApiService: MovieAp
             firstLoading = false
             RemoteDataSource(movieApiService, movieDao)
         } else{
-            LocalDataSource(movieDao)
+//            LocalDataSource(movieDao)
+            RemoteDataSource(movieApiService, movieDao)
         }
     }
 
