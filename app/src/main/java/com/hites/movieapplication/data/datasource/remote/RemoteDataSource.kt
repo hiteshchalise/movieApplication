@@ -3,7 +3,6 @@ package com.hites.movieapplication.data.datasource.remote
 import android.util.Log
 import com.hites.movieapplication.data.datasource.DataSource
 import com.hites.movieapplication.data.datasource.local.MovieDao
-import com.hites.movieapplication.data.model.ApiResponse
 import com.hites.movieapplication.data.model.Movie
 import com.hites.movieapplication.domain.exception.Failure
 import com.hites.movieapplication.domain.functional.Either
@@ -20,17 +19,18 @@ class RemoteDataSource @Inject constructor(
     }
 
     private fun request(
-        call: Call<ApiResponse<Movie>>,
+        call: Call<List<Movie>>,
         default: List<Movie>
     ): Either<Failure, List<Movie>> {
         return try{
             val response = call.execute()
-            Log.d("MovieApplication", "RemoteDataSource: ${response.body()?.results}")
+            Log.d("MovieApplication", "RemoteDataSource: ${response.body()}")
             when(response.isSuccessful){
-                true -> Either.Right(response.body()?.results ?: default)
-                false -> Either.Left(Failure.ServerError)
+                true -> Either.Right(response.body() ?: default)
+                false -> Either.Left(Failure.ResponseUnSuccessful)
             }
         } catch (exception: Throwable){
+            Log.d("MovieApplication", "RemoteDataSource: $exception")
             Either.Left(Failure.ServerError)
         }
     }

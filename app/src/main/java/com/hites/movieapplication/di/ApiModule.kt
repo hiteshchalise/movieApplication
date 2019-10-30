@@ -55,6 +55,7 @@ class ApiModule {
     @Singleton
     internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit{
         return Retrofit.Builder()
+            .addConverterFactory(EnvelopingConverter())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl("https://api.themoviedb.org/3/")
             .client(okHttpClient)
