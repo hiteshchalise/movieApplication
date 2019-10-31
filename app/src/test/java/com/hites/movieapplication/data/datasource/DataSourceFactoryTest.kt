@@ -16,7 +16,7 @@ class DataSourceFactoryTest {
     @Test
     fun `DataSourceFactory should return LocalDataSource`() {
         // When
-        val dataSource = dataSourceFactory.getDataSource(5)
+        val dataSource = dataSourceFactory.getDataSource(true)
         // Then
         assertTrue(dataSource is LocalDataSource)
     }
@@ -24,7 +24,7 @@ class DataSourceFactoryTest {
     @Test
     fun `DataSourceFactory should return RemoteDataSource`() {
         // When
-        val dataSource = dataSourceFactory.getDataSource(15)
+        val dataSource = dataSourceFactory.getDataSource(false)
         // Then
         assertTrue(dataSource is RemoteDataSource)
     }

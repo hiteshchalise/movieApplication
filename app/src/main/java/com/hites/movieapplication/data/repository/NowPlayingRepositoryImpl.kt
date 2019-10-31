@@ -15,8 +15,12 @@ class NowPlayingRepositoryImpl @Inject constructor(
     NowPlayingRepository {
 
     override fun getNowPlaying(cached: Boolean): Either<Failure, List<MoviePoster>> {
-        val movieList = dataSourceFactory.getDataSource(cached = cached).getNowPlaying()
-        return movieList.map { it.mapToMoviePosterList() }
+        val movieListEither = dataSourceFactory.getDataSource(cached = cached).getNowPlaying()
+        return mapMovieList(movieListEither)
+    }
+
+    fun mapMovieList(movieListEither: Either<Failure, List<SimpleMovie>>): Either<Failure, List<MoviePoster>> {
+        return movieListEither.map { it.mapToMoviePosterList() }
     }
 }
 
