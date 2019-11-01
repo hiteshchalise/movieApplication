@@ -1,7 +1,7 @@
 package com.hites.movieapplication.data.repository
 
 import com.hites.movieapplication.data.datasource.DataSourceFactory
-import com.hites.movieapplication.data.model.MovieDTO
+import com.hites.movieapplication.data.model.NowPlayingMovieDTO
 import com.hites.movieapplication.domain.exception.Failure
 import com.hites.movieapplication.domain.functional.Either
 import com.hites.movieapplication.domain.model.Movie
@@ -14,7 +14,7 @@ import org.junit.Test
 
 class NowPlayingRepositoryImplTest {
 
-    private val remoteMovieDTO = MovieDTO(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
+    private val remoteMovieDTO = NowPlayingMovieDTO(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
 
     private val moviePoster = Movie(false, 1, "", "", 0.0)
 
@@ -24,7 +24,7 @@ class NowPlayingRepositoryImplTest {
     @Test
     fun `ResultMovie mapped to MoviePoster correctly`() {
         // When
-        val mappedMovie: Movie = remoteMovieDTO.mapToMoviePoster()
+        val mappedMovie: Movie = remoteMovieDTO.mapToMovie()
 
         // Then
         assertTrue(moviePoster == mappedMovie)
@@ -37,7 +37,7 @@ class NowPlayingRepositoryImplTest {
         val moviePosterList = listOf(moviePoster, moviePoster, moviePoster)
 
         // When
-        val mappedMoviePosterList = remoteMovieDTOList.mapToMoviePosterList()
+        val mappedMoviePosterList = remoteMovieDTOList.mapToMovieList()
 
         // Then
         moviePosterList.forEachIndexed { index, it ->

@@ -14,19 +14,27 @@ class MainActivity : DaggerAppCompatActivity() {
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    lateinit var nowPlayingViewModel: NowPlayingViewModel
+    lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        nowPlayingViewModel = ViewModelProviders.of(this, viewModelFactory).get(NowPlayingViewModel::class.java)
-        nowPlayingViewModel.liveDataNowPlayingList.observe(this, Observer {
+        mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+        mainViewModel.liveDataNowPlayingList.observe(this, Observer {
             Log.d("MovieApplication: ", "OnCreate: ${it.size}")
         })
-        nowPlayingViewModel.failureLiveData.observe(this, Observer{
+        mainViewModel.failureNowPlayingLiveData.observe(this, Observer{
             Log.e("MovieApplication: ", "Failed: {$it}")
         } )
-        nowPlayingViewModel.loadCachedMovies()
+
+        mainViewModel.liveDataPopularMovieList.observe(this, Observer {
+            Log.d("MovieApplication: ", "OnCreate: ${it.size}")
+        })
+        mainViewModel.failureGetPopularLiveData.observe(this, Observer{
+            Log.e("MovieApplication: ", "Failed: {$it}")
+        } )
+        mainViewModel.loadNowPlayingList(false)
+        mainViewModel.loadPopularList(false)
     }
 }

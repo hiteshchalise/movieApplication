@@ -1,30 +1,31 @@
 package com.hites.movieapplication.data.repository
 
 import com.hites.movieapplication.data.datasource.DataSourceFactory
-import com.hites.movieapplication.data.model.NowPlayingMovieDTO
+import com.hites.movieapplication.data.model.PopularMovieDTO
 import com.hites.movieapplication.domain.exception.Failure
 import com.hites.movieapplication.domain.functional.Either
 import com.hites.movieapplication.domain.functional.map
-import com.hites.movieapplication.domain.interactor.nowplaying.NowPlayingRepository
+import com.hites.movieapplication.domain.interactor.getpopular.GetPopularRepository
 import com.hites.movieapplication.domain.model.Movie
 import javax.inject.Inject
 
-class NowPlayingRepositoryImpl @Inject constructor(
+class GetPopularRepositoryImpl @Inject constructor(
     private val dataSourceFactory: DataSourceFactory
-) :
-    NowPlayingRepository {
+) : GetPopularRepository {
 
-    override fun getNowPlaying(cached: Boolean): Either<Failure, List<Movie>> {
-        val movieListEither = dataSourceFactory.getDataSource(cached = cached).getNowPlaying()
-        return mapMovieList(movieListEither)
+    override fun getMovies(cached: Boolean): Either<Failure, List<Movie>> {
+        val popularMovies = dataSourceFactory.getDataSource(cached).getPopularMovies()
+        return mapPopularMoviesDTO(popularMovies)
     }
 
-    fun mapMovieList(nowPlayingMovieListEither: Either<Failure, List<NowPlayingMovieDTO>>): Either<Failure, List<Movie>> {
-        return nowPlayingMovieListEither.map { it.mapToMovieList() }
+    fun mapPopularMoviesDTO(popularMovies: Either<Failure, List<PopularMovieDTO>>): Either<Failure, List<Movie>> {
+        return popularMovies.map {
+            it.mapToMovieList()
+        }
     }
+
 }
-
-fun NowPlayingMovieDTO.mapToMovie(): Movie {
+fun PopularMovieDTO.mapToMovie(): Movie {
     return Movie(
         this.adult ?: Movie.EMPTY.adult,
         this.id ?: Movie.EMPTY.id,
@@ -34,7 +35,7 @@ fun NowPlayingMovieDTO.mapToMovie(): Movie {
     )
 }
 
-fun List<NowPlayingMovieDTO>.mapToMovieList(): List<Movie> {
+fun List<PopularMovieDTO>.mapToMovieList(): List<Movie> {
     val listMovie: ArrayList<Movie> = ArrayList()
     this.forEach {
         listMovie.add(it.mapToMovie())
