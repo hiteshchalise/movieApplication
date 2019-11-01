@@ -4,14 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hites.movieapplication.domain.exception.Failure
 import com.hites.movieapplication.domain.interactor.nowplaying.NowPlayingUseCase
-import com.hites.movieapplication.domain.model.MoviePoster
+import com.hites.movieapplication.domain.model.Movie
 import javax.inject.Inject
 
 class NowPlayingViewModel @Inject constructor(
     private val nowPlayingUseCase: NowPlayingUseCase
 ) : ViewModel() {
 
-    val liveDataNowPlayingList = MutableLiveData<List<MoviePoster>>()
+    val liveDataNowPlayingList = MutableLiveData<List<Movie>>()
     val failureLiveData = MutableLiveData<Failure>()
 
     fun loadCachedMovies() {
@@ -24,7 +24,7 @@ class NowPlayingViewModel @Inject constructor(
             NowPlayingUseCase.Params(false))
     }
 
-    private fun handleNowPlayingList(nowPlayingList: List<MoviePoster>){
+    private fun handleNowPlayingList(nowPlayingList: List<Movie>){
         this.liveDataNowPlayingList.value = nowPlayingList
     }
 

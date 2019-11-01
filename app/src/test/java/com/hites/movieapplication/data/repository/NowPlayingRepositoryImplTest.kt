@@ -1,10 +1,10 @@
 package com.hites.movieapplication.data.repository
 
 import com.hites.movieapplication.data.datasource.DataSourceFactory
-import com.hites.movieapplication.data.model.SimpleMovie
+import com.hites.movieapplication.data.model.MovieDTO
 import com.hites.movieapplication.domain.exception.Failure
 import com.hites.movieapplication.domain.functional.Either
-import com.hites.movieapplication.domain.model.MoviePoster
+import com.hites.movieapplication.domain.model.Movie
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
@@ -14,9 +14,9 @@ import org.junit.Test
 
 class NowPlayingRepositoryImplTest {
 
-    private val simpleMovie = SimpleMovie(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
+    private val remoteMovieDTO = MovieDTO(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
 
-    private val moviePoster = MoviePoster(false, 1, "", "", 0.0)
+    private val moviePoster = Movie(false, 1, "", "", 0.0)
 
     private val dataSourceFactory: DataSourceFactory = mockk()
     private val nowPlayingRepository = spyk(NowPlayingRepositoryImpl(dataSourceFactory))
@@ -24,20 +24,20 @@ class NowPlayingRepositoryImplTest {
     @Test
     fun `ResultMovie mapped to MoviePoster correctly`() {
         // When
-        val mappedMoviePoster: MoviePoster = simpleMovie.mapToMoviePoster()
+        val mappedMovie: Movie = remoteMovieDTO.mapToMoviePoster()
 
         // Then
-        assertTrue(moviePoster == mappedMoviePoster)
+        assertTrue(moviePoster == mappedMovie)
     }
 
     @Test
     fun `ResultMovie List mapped to MoviePoster List correctly`() {
         // Given
-        val simpleMovieList = listOf(simpleMovie, simpleMovie, simpleMovie)
+        val remoteMovieDTOList = listOf(remoteMovieDTO, remoteMovieDTO, remoteMovieDTO)
         val moviePosterList = listOf(moviePoster, moviePoster, moviePoster)
 
         // When
-        val mappedMoviePosterList = simpleMovieList.mapToMoviePosterList()
+        val mappedMoviePosterList = remoteMovieDTOList.mapToMoviePosterList()
 
         // Then
         moviePosterList.forEachIndexed { index, it ->
@@ -50,7 +50,7 @@ class NowPlayingRepositoryImplTest {
     fun `When DataSource Returns List of SimpleMovie`() {
         // Given
         val rightSimpleMovie = Either.Right(
-            listOf(simpleMovie, simpleMovie, simpleMovie)
+            listOf(remoteMovieDTO, remoteMovieDTO, remoteMovieDTO)
         )
         val rightMoviePoster = Either.Right(
             listOf(moviePoster, moviePoster, moviePoster)
@@ -108,7 +108,7 @@ class NowPlayingRepositoryImplTest {
     fun `Map MovieList Works For EitherRight`() {
         // Given
         val rightSimpleMovie = Either.Right(
-            listOf(simpleMovie, simpleMovie, simpleMovie)
+            listOf(remoteMovieDTO, remoteMovieDTO, remoteMovieDTO)
         )
         val rightMoviePoster = Either.Right(
             listOf(moviePoster, moviePoster, moviePoster)

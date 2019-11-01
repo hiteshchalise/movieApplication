@@ -4,14 +4,14 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.hites.movieapplication.data.model.SimpleMovie
+import com.hites.movieapplication.data.model.MovieDTO
 
 @Dao
 interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovies(movies: List<SimpleMovie>)
+    fun insertMovies(movies: List<MovieDTO>)
 
-    @Query("SELECT * FROM SimpleMovie")
-    fun getMovies(): List<SimpleMovie>
+    @Query("SELECT * FROM MovieDTO")
+    fun getMovies(): List<MovieDTO>
 
 }

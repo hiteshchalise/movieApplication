@@ -2,7 +2,7 @@ package com.hites.movieapplication.domain
 
 import com.hites.movieapplication.domain.exception.Failure
 import com.hites.movieapplication.domain.functional.Either
-import com.hites.movieapplication.domain.model.MoviePoster
+import com.hites.movieapplication.domain.model.Movie
 import com.hites.movieapplication.domain.interactor.nowplaying.NowPlayingRepository
 import com.hites.movieapplication.domain.interactor.nowplaying.NowPlayingUseCase
 import io.mockk.every
@@ -18,14 +18,14 @@ class NowPlayingUseCaseTest {
         NowPlayingUseCase(
             nowPlayingRepository
         )
-    private val moviePoster: MoviePoster = mockk()
+    private val movie: Movie = mockk()
 
     @Test
     fun `repository returns success`() {
         // Given
         val rightMoviePoster = Either.Right(
             listOf(
-                moviePoster, moviePoster, moviePoster
+                movie, movie, movie
             )
         )
         val params = NowPlayingUseCase.Params(true)
