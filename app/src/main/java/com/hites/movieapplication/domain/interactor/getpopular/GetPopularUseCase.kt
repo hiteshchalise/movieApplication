@@ -5,12 +5,13 @@ import com.hites.movieapplication.domain.functional.Either
 import com.hites.movieapplication.domain.interactor.UseCase
 import com.hites.movieapplication.domain.interactor.getpopular.GetPopularUseCase.*
 import com.hites.movieapplication.domain.model.Movie
+import javax.inject.Inject
 
-class GetPopularUseCase(private val getPopularRepository: GetPopularRepository) :
+class GetPopularUseCase @Inject constructor (private val getPopularRepository: GetPopularRepository) :
     UseCase<List<Movie>, Params>() {
 
     override suspend fun runs(params: Params): Either<Failure, List<Movie>> {
-        return getPopularRepository.getMovies(true)
+        return getPopularRepository.getMovies(params.boolean)
     }
 
 
