@@ -20,11 +20,11 @@ class NowPlayingRepositoryImpl @Inject constructor(
     }
 
     fun mapMovieList(nowPlayingMovieListEither: Either<Failure, List<NowPlayingMovieDTO>>): Either<Failure, List<Movie>> {
-        return nowPlayingMovieListEither.map { it.mapToMoviePosterList() }
+        return nowPlayingMovieListEither.map { it.mapToMovieList() }
     }
 }
 
-fun NowPlayingMovieDTO.mapToMoviePoster(): Movie {
+fun NowPlayingMovieDTO.mapToMovie(): Movie {
     return Movie(
         this.adult ?: Movie.EMPTY.adult,
         this.id ?: Movie.EMPTY.id,
@@ -34,10 +34,10 @@ fun NowPlayingMovieDTO.mapToMoviePoster(): Movie {
     )
 }
 
-fun List<NowPlayingMovieDTO>.mapToMoviePosterList(): List<Movie> {
+fun List<NowPlayingMovieDTO>.mapToMovieList(): List<Movie> {
     val listMovie: ArrayList<Movie> = ArrayList()
     this.forEach {
-        listMovie.add(it.mapToMoviePoster())
+        listMovie.add(it.mapToMovie())
     }
     return listMovie
 }

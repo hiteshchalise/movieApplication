@@ -10,7 +10,7 @@ class GetPopularUseCase(private val getPopularRepository: GetPopularRepository) 
     UseCase<List<Movie>, Params>() {
 
     override suspend fun runs(params: Params): Either<Failure, List<Movie>> {
-        return getPopularRepository.getMovies()
+        return getPopularRepository.getMovies(true)
     }
 
 

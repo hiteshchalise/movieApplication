@@ -24,7 +24,7 @@ class NowPlayingRepositoryImplTest {
     @Test
     fun `ResultMovie mapped to MoviePoster correctly`() {
         // When
-        val mappedMovie: Movie = remoteMovieDTO.mapToMoviePoster()
+        val mappedMovie: Movie = remoteMovieDTO.mapToMovie()
 
         // Then
         assertTrue(moviePoster == mappedMovie)
@@ -37,7 +37,7 @@ class NowPlayingRepositoryImplTest {
         val moviePosterList = listOf(moviePoster, moviePoster, moviePoster)
 
         // When
-        val mappedMoviePosterList = remoteMovieDTOList.mapToMoviePosterList()
+        val mappedMoviePosterList = remoteMovieDTOList.mapToMovieList()
 
         // Then
         moviePosterList.forEachIndexed { index, it ->

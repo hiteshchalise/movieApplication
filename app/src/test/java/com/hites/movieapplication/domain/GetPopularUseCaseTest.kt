@@ -30,7 +30,7 @@ class GetPopularUseCaseTest {
         // Given
         val listOfMovie = listOf(movie, movie, movie)
         val expected = Either.Right(listOfMovie)
-        every { getPopularRepository.getMovies() } returns expected
+        every { getPopularRepository.getMovies(true) } returns expected
 
         // When
         runBlocking { val actual = getPopularUseCase.runs(GetPopularUseCase.Params(true))
@@ -39,6 +39,6 @@ class GetPopularUseCaseTest {
         }
 
         // Then
-        verify { getPopularRepository.getMovies() }
+        verify { getPopularRepository.getMovies(true) }
     }
 }
