@@ -1,7 +1,7 @@
 package com.hites.movieapplication.data.repository
 
 import com.hites.movieapplication.data.datasource.DataSourceFactory
-import com.hites.movieapplication.data.model.MovieDTO
+import com.hites.movieapplication.data.model.NowPlayingMovieDTO
 import com.hites.movieapplication.domain.exception.Failure
 import com.hites.movieapplication.domain.functional.Either
 import com.hites.movieapplication.domain.functional.map
@@ -19,12 +19,12 @@ class NowPlayingRepositoryImpl @Inject constructor(
         return mapMovieList(movieListEither)
     }
 
-    fun mapMovieList(movieListEither: Either<Failure, List<MovieDTO>>): Either<Failure, List<Movie>> {
-        return movieListEither.map { it.mapToMoviePosterList() }
+    fun mapMovieList(nowPlayingMovieListEither: Either<Failure, List<NowPlayingMovieDTO>>): Either<Failure, List<Movie>> {
+        return nowPlayingMovieListEither.map { it.mapToMoviePosterList() }
     }
 }
 
-fun MovieDTO.mapToMoviePoster(): Movie {
+fun NowPlayingMovieDTO.mapToMoviePoster(): Movie {
     return Movie(
         this.adult ?: Movie.EMPTY.adult,
         this.id ?: Movie.EMPTY.id,
@@ -34,7 +34,7 @@ fun MovieDTO.mapToMoviePoster(): Movie {
     )
 }
 
-fun List<MovieDTO>.mapToMoviePosterList(): List<Movie> {
+fun List<NowPlayingMovieDTO>.mapToMoviePosterList(): List<Movie> {
     val listMovie: ArrayList<Movie> = ArrayList()
     this.forEach {
         listMovie.add(it.mapToMoviePoster())

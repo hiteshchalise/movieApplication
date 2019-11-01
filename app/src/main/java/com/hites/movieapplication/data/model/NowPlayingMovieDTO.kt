@@ -4,7 +4,7 @@ import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
 @Entity(primaryKeys = ["id"])
-data class MovieDTO(
+data class NowPlayingMovieDTO(
     @SerializedName("id")val id: Int?,
     @SerializedName("adult")val adult: Boolean?,
     @SerializedName("backdrop_path")val backdropPath: String?,

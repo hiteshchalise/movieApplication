@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.hites.movieapplication.data.model.MovieDTO
+import com.hites.movieapplication.data.model.NowPlayingMovieDTO
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -35,13 +35,13 @@ class AppDatabaseTest{
     @Test
     @Throws(Exception::class)
     fun writeMovieListAndReadMovieList(){
-        val resultMovie = MovieDTO(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
-        val resultMovie2 = MovieDTO(2, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
+        val resultMovie = NowPlayingMovieDTO(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
+        val resultMovie2 = NowPlayingMovieDTO(2, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
 
         val resultMovieList = listOf(resultMovie, resultMovie2)
 
-        movieDao.insertMovies(resultMovieList)
-        val actualMovieList = movieDao.getMovies()
+        movieDao.insertNowPlayingMovies(resultMovieList)
+        val actualMovieList = movieDao.getNowPlayingMovies()
 
         assertEquals(resultMovieList, actualMovieList)
 
