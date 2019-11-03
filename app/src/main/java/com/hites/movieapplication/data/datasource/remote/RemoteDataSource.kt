@@ -17,6 +17,7 @@ class RemoteDataSource @Inject constructor(
     override fun getPopularMovies(): Either<Failure, List<PopularMovieDTO>> {
         val responseEither = request(apiService.fetchPopularMovies(), emptyList())
         responseEither.either({}, {
+            movieDao.removePopularMovies()
             movieDao.insertPopularMovies(it)
         })
         return responseEither

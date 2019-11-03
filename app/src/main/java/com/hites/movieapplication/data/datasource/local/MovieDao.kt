@@ -18,7 +18,10 @@ interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPopularMovies(nowPlayingMovies: List<PopularMovieDTO>)
 
-    @Query("SELECT * FROM NowPlayingMovieDTO")
+    @Query("SELECT * FROM PopularMovieDTO")
     fun getPopularMovies(): List<PopularMovieDTO>
+
+    @Query("DELETE FROM PopularMovieDTO")
+    fun removePopularMovies()
 
 }
