@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.hites.movieapplication.R
+import com.hites.movieapplication.core.NetworkHandler
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -14,12 +15,20 @@ class MainActivity : DaggerAppCompatActivity() {
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    lateinit var networkHandler: NetworkHandler
+
     lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initializeViewModel()
+        loadPage()
+    }
+
+    private fun initializeViewModel(){
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
         mainViewModel.liveDataNowPlayingList.observe(this, Observer {
             Log.d("MovieApplication: ", "OnCreate: ${it.size}")
@@ -34,7 +43,12 @@ class MainActivity : DaggerAppCompatActivity() {
         mainViewModel.failureGetPopularLiveData.observe(this, Observer{
             Log.e("MovieApplication: ", "Failed: {$it}")
         } )
-        mainViewModel.loadNowPlayingList(false)
-        mainViewModel.loadPopularList(false)
+    }
+
+    private fun loadPage(){
+        val networkAvailability: Boolean = networkHandler.isConnected
+        Log.d("MovieApplication", "MainActivity: $networkAvailability")
+        mainViewModel.loadNowPlayingList(!networkAvailability)
+        mainViewModel.loadPopularList(!networkAvailability)
     }
 }

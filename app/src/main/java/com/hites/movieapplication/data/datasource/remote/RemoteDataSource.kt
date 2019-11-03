@@ -25,6 +25,7 @@ class RemoteDataSource @Inject constructor(
     override fun getNowPlaying(): Either<Failure, List<NowPlayingMovieDTO>> {
         val responseEither = request(apiService.fetchNowPlaying(), emptyList())
         responseEither.either({}, {
+            movieDao.removeNowPlayingMovies()
             movieDao.insertNowPlayingMovies(it)
         })
         return responseEither
