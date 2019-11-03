@@ -1,9 +1,6 @@
 package com.hites.movieapplication.data.datasource.local
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.hites.movieapplication.data.model.NowPlayingMovieDTO
 import com.hites.movieapplication.data.model.PopularMovieDTO
 
@@ -15,10 +12,16 @@ interface MovieDao {
     @Query("SELECT * FROM NowPlayingMovieDTO")
     fun getNowPlayingMovies(): List<NowPlayingMovieDTO>
 
+    @Query("DELETE FROM NowPlayingMovieDTO")
+    fun removeNowPlayingMovies()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPopularMovies(nowPlayingMovies: List<PopularMovieDTO>)
 
-    @Query("SELECT * FROM NowPlayingMovieDTO")
+    @Query("SELECT * FROM PopularMovieDTO")
     fun getPopularMovies(): List<PopularMovieDTO>
+
+    @Query("DELETE FROM PopularMovieDTO")
+    fun removePopularMovies()
 
 }
