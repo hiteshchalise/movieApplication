@@ -10,7 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.hites.movieapplication.R
 import com.hites.movieapplication.core.NetworkHandler
 import com.hites.movieapplication.domain.model.Movie
@@ -43,6 +45,9 @@ class MainActivity : DaggerAppCompatActivity() {
     private var nowPlayingMovieList: List<Movie> = ArrayList()
     private var bannerList: List<BannerModel> = ArrayList()
 
+    private lateinit var timer: Timer
+    var imageIndex: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -68,6 +73,7 @@ class MainActivity : DaggerAppCompatActivity() {
         nowPlayingRecyclerView.adapter = nowPlayingViewAdapter
         initializeViewModel()
         loadPage()
+        changeBanner()
     }
 
     private fun initializeViewModel() {
@@ -79,7 +85,6 @@ class MainActivity : DaggerAppCompatActivity() {
                 BannerModel(it.id, it.poster_path)
             }
             nowPlayingViewAdapter.submitList(nowPlayingMovieList)
-            bannerImage.load(bannerList[0].posterPath)
         })
         mainViewModel.failureNowPlayingLiveData.observe(this, Observer {
             Log.e("MovieApplication: ", "Failed: {$it}")
@@ -93,6 +98,24 @@ class MainActivity : DaggerAppCompatActivity() {
         mainViewModel.failureGetPopularLiveData.observe(this, Observer {
             Log.e("MovieApplication: ", "Failed: {$it}")
         })
+    }
+
+    private fun changeBanner() {
+        timer = Timer("banner")
+        timer.scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
+                if(bannerList.isEmpty()) return
+                imageIndex = (imageIndex + 1) % bannerList.size
+                bannerImage.load("https://image.tmdb.org/t/p/w500/" + bannerList[imageIndex].posterPath){
+                    transformations(CircleCropTransformation())
+                }
+            }
+        }, 1000, 10000)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        timer.cancel()
     }
 
     private fun loadPage() {
