@@ -1,6 +1,7 @@
 package com.hites.movieapplication.data.datasource.local
 
 import androidx.room.*
+import com.hites.movieapplication.data.model.MovieDetailsDTO
 import com.hites.movieapplication.data.model.NowPlayingMovieDTO
 import com.hites.movieapplication.data.model.PopularMovieDTO
 
@@ -23,5 +24,11 @@ interface MovieDao {
 
     @Query("DELETE FROM PopularMovieDTO")
     fun removePopularMovies()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertMovieDetails(movieDetailsDTO: MovieDetailsDTO)
+
+    @Query("SELECT * FROM MovieDetailsDTO WHERE id = :id")
+    fun getMovieDetails(id: Int): MovieDetailsDTO
 
 }

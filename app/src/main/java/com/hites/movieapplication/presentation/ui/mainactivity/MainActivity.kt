@@ -1,7 +1,7 @@
-package com.hites.movieapplication.presentation.ui
+package com.hites.movieapplication.presentation.ui.mainactivity
 
+import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
@@ -10,12 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.hites.movieapplication.R
 import com.hites.movieapplication.core.NetworkHandler
 import com.hites.movieapplication.domain.model.Movie
+import com.hites.movieapplication.presentation.ui.detailsactivity.DetailsActivity
 import dagger.android.support.DaggerAppCompatActivity
 import java.util.*
 import javax.inject.Inject
@@ -59,12 +59,18 @@ class MainActivity : DaggerAppCompatActivity() {
         popularViewManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         nowPlayingViewManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
 
-        popularViewAdapter = PopularViewAdapter(this) {
-            Toast.makeText(this, "Item Clicked: $it", Toast.LENGTH_SHORT).show()
-        }
-        nowPlayingViewAdapter = NowPlayingViewAdapter(this) {
-            Toast.makeText(this, "Item Clicked: $it", Toast.LENGTH_SHORT).show()
-        }
+        popularViewAdapter =
+            PopularViewAdapter(this) {
+                val intent = Intent(this, DetailsActivity::class.java)
+                intent.putExtra("id", it)
+                startActivity(intent)
+            }
+        nowPlayingViewAdapter =
+            NowPlayingViewAdapter(this) {
+                val intent = Intent(this, DetailsActivity::class.java)
+                intent.putExtra("id", it)
+                startActivity(intent)
+            }
 
         popularRecyclerView.layoutManager = popularViewManager
         popularRecyclerView.adapter = popularViewAdapter
@@ -82,7 +88,10 @@ class MainActivity : DaggerAppCompatActivity() {
             Log.d("MovieApplication: ", "OnCreate: ${movieList.size}")
             nowPlayingMovieList = movieList
             bannerList = movieList.map {
-                BannerModel(it.id, it.poster_path)
+                BannerModel(
+                    it.id,
+                    it.poster_path
+                )
             }
             nowPlayingViewAdapter.submitList(nowPlayingMovieList)
         })

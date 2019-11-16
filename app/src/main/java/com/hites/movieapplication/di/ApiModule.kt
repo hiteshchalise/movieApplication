@@ -15,6 +15,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -53,7 +54,8 @@ class ApiModule {
 
     @Provides
     @Singleton
-    internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit{
+    @Named("EnvelopingApi")
+    internal fun provideEnvelopedRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit{
         return Retrofit.Builder()
             .addConverterFactory(EnvelopingConverter())
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -64,7 +66,26 @@ class ApiModule {
 
     @Provides
     @Singleton
-    internal fun provideMovieApiService(retrofit: Retrofit): MovieApiService{
+    @Named("NonEnvelopingApi")
+    internal fun provideNonEnvelopedRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit{
+        return Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .baseUrl("https://api.themoviedb.org/3/")
+            .client(okHttpClient)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @Named("Enveloped")
+    internal fun provideMovieApiService(@Named("EnvelopingApi")retrofit: Retrofit): MovieApiService{
+        return retrofit.create(MovieApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @Named("NonEnveloped")
+    internal fun provideMovieApiServiceNonEnvelope(@Named("NonEnvelopingApi")retrofit: Retrofit): MovieApiService{
         return retrofit.create(MovieApiService::class.java)
     }
 

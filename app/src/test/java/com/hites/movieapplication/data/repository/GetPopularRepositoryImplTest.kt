@@ -1,6 +1,5 @@
 package com.hites.movieapplication.data.repository
 
-import com.hites.movieapplication.data.datasource.DataSourceFactory
 import com.hites.movieapplication.data.model.PopularMovieDTO
 import com.hites.movieapplication.domain.exception.Failure
 import com.hites.movieapplication.domain.functional.Either
@@ -18,7 +17,7 @@ class GetPopularRepositoryImplTest{
 
     private val popularMovieDTO = PopularMovieDTO(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
 
-    private val movieDomain = Movie(false, 1, "", "", 0.0)
+    private val movieDomain = Movie(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
 
     private val dataSourceFactory: DataSourceFactory = mockk()
     private val getPopularRepository = spyk(GetPopularRepositoryImpl(dataSourceFactory))

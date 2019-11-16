@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.hites.movieapplication.data.model.MovieDetailsDTO
 import com.hites.movieapplication.data.model.NowPlayingMovieDTO
 import com.hites.movieapplication.data.model.PopularMovieDTO
 import org.junit.After
@@ -65,6 +66,18 @@ class AppDatabaseTest{
 
     @Test
     @Throws(Exception::class)
+    fun writeMovieDetailsAndReadIt(){
+        val movieDetailsDto = MovieDetailsDTO(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
+
+        movieDao.insertMovieDetails(movieDetailsDto)
+        val actualMovieDetail = movieDao.getMovieDetails(1)
+
+        assertEquals(movieDetailsDto, actualMovieDetail)
+
+    }
+
+    @Test
+    @Throws(Exception::class)
     fun deletesNowPlayingList(){
         // Given
         val nowPlayingMovie = NowPlayingMovieDTO(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
@@ -93,6 +106,23 @@ class AppDatabaseTest{
 
         // Then
         assertEquals(emptyList<PopularMovieDTO>(), movieDao.getPopularMovies())
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun replacesWhenIdIsSameInDetails(){
+        // Given
+        val firstMovieDetailsDTO = MovieDetailsDTO(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
+
+        val secondMovieDetailsDTO =
+            MovieDetailsDTO(1, true, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
+
+        // When
+        movieDao.insertMovieDetails(firstMovieDetailsDTO)
+        movieDao.insertMovieDetails(secondMovieDetailsDTO)
+
+        // Then
+        assertEquals(secondMovieDetailsDTO, movieDao.getMovieDetails(1))
     }
 
 }

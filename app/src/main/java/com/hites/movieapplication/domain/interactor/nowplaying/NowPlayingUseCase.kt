@@ -4,8 +4,9 @@ import com.hites.movieapplication.domain.exception.Failure
 import com.hites.movieapplication.domain.functional.Either
 import com.hites.movieapplication.domain.interactor.UseCase
 import com.hites.movieapplication.domain.model.Movie
+import javax.inject.Inject
 
-class NowPlayingUseCase(
+class NowPlayingUseCase @Inject constructor(
     private val nowPlayingRepository: NowPlayingRepository
 ) : UseCase<List<Movie>, NowPlayingUseCase.Params>() {
 

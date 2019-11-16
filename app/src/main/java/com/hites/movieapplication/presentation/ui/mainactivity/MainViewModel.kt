@@ -1,4 +1,4 @@
-package com.hites.movieapplication.presentation.ui
+package com.hites.movieapplication.presentation.ui.mainactivity
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

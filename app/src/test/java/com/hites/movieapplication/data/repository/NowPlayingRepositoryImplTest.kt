@@ -1,6 +1,5 @@
 package com.hites.movieapplication.data.repository
 
-import com.hites.movieapplication.data.datasource.DataSourceFactory
 import com.hites.movieapplication.data.model.NowPlayingMovieDTO
 import com.hites.movieapplication.domain.exception.Failure
 import com.hites.movieapplication.domain.functional.Either
@@ -16,7 +15,7 @@ class NowPlayingRepositoryImplTest {
 
     private val remoteMovieDTO = NowPlayingMovieDTO(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
 
-    private val moviePoster = Movie(false, 1, "", "", 0.0)
+    private val moviePoster = Movie(1, false, "", "", "", "", 0.0, "", "", "", false, 0.0, 0)
 
     private val dataSourceFactory: DataSourceFactory = mockk()
     private val nowPlayingRepository = spyk(NowPlayingRepositoryImpl(dataSourceFactory))

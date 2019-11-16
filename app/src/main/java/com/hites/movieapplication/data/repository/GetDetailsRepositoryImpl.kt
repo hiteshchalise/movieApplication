@@ -1,31 +1,27 @@
 package com.hites.movieapplication.data.repository
 
-import com.hites.movieapplication.data.datasource.GetPopularMoviesDataSource
-import com.hites.movieapplication.data.model.PopularMovieDTO
+import com.hites.movieapplication.data.datasource.GetDetailsMoviesDataSource
+import com.hites.movieapplication.data.model.MovieDetailsDTO
 import com.hites.movieapplication.domain.exception.Failure
 import com.hites.movieapplication.domain.functional.Either
 import com.hites.movieapplication.domain.functional.map
-import com.hites.movieapplication.domain.interactor.getpopular.GetPopularRepository
+import com.hites.movieapplication.domain.interactor.getdetails.GetDetailsRepository
 import com.hites.movieapplication.domain.model.Movie
 import javax.inject.Inject
 
-class GetPopularRepositoryImpl @Inject constructor(
-    private val dataSource: GetPopularMoviesDataSource
-) : GetPopularRepository {
-
-    override fun getMovies(cached: Boolean): Either<Failure, List<Movie>> {
-        val popularMovies = dataSource.getPopularMovies()
-        return mapPopularMoviesDTO(popularMovies)
+class GetDetailsRepositoryImpl @Inject constructor(
+    private val dataSource: GetDetailsMoviesDataSource
+) : GetDetailsRepository {
+    override fun getDetails(boolean: Boolean, id: Int): Either<Failure, Movie> {
+        val movieDetailsEither =  dataSource.getDetails(id)
+        return mapMovie(movieDetailsEither)
     }
-
-    fun mapPopularMoviesDTO(popularMovies: Either<Failure, List<PopularMovieDTO>>): Either<Failure, List<Movie>> {
-        return popularMovies.map {
-            it.mapToMovieList()
-        }
+    fun mapMovie(movieDetailsEither: Either<Failure, MovieDetailsDTO>): Either<Failure, Movie> {
+        return movieDetailsEither.map { it.mapToMovie() }
     }
 
 }
-fun PopularMovieDTO.mapToMovie(): Movie {
+fun MovieDetailsDTO.mapToMovie(): Movie {
     return Movie(
         this.id ?: Movie.EMPTY.id,
         this.adult ?: Movie.EMPTY.adult,
@@ -40,12 +36,5 @@ fun PopularMovieDTO.mapToMovie(): Movie {
         this.video ?: Movie.EMPTY.video,
         this.voteAverage ?: Movie.EMPTY.vote_average,
         this.voteCount ?: Movie.EMPTY.vote_count
-    )}
-
-fun List<PopularMovieDTO>.mapToMovieList(): List<Movie> {
-    val listMovie: ArrayList<Movie> = ArrayList()
-    this.forEach {
-        listMovie.add(it.mapToMovie())
-    }
-    return listMovie
+    )
 }

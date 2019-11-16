@@ -1,7 +1,6 @@
-package com.hites.movieapplication.presentation.ui
+package com.hites.movieapplication.presentation.ui.mainactivity
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +11,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.api.load
-import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.hites.movieapplication.R
 import com.hites.movieapplication.domain.model.Movie
 
-class NowPlayingViewAdapter(private val ctx: Context, private val listener: (Int) -> Unit) :
-    ListAdapter<Movie, NowPlayingViewAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class PopularViewAdapter(private val ctx: Context, private val listener: (Int) -> Unit) :
+    ListAdapter<Movie, PopularViewAdapter.MyViewHolder>(
+        DIFF_CALLBACK
+    ) {
 
-    class MyViewHolder(itemView: View, listener: (Int) -> Unit) :
+    class MyViewHolder(itemView: View, listener: (Int) -> Unit, getId: (Int) -> Int) :
         RecyclerView.ViewHolder(itemView) {
         var title: TextView = itemView.findViewById(R.id.item_title)
         var imageView: ImageView = itemView.findViewById(R.id.item_image)
@@ -30,7 +30,7 @@ class NowPlayingViewAdapter(private val ctx: Context, private val listener: (Int
 
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    listener(position)
+                    listener(getId(position))
                 }
 
             }
@@ -40,7 +40,13 @@ class NowPlayingViewAdapter(private val ctx: Context, private val listener: (Int
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): MyViewHolder {
         val v =
             LayoutInflater.from(viewGroup.context).inflate(R.layout.item_layout, viewGroup, false)
-        return MyViewHolder(v, listener)
+        return MyViewHolder(
+            v,
+            listener,
+            {
+                getItem(it).id
+            }
+        )
     }
 
     override fun onBindViewHolder(myViewHolder: MyViewHolder, i: Int) {
