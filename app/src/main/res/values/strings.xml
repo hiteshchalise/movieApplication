@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MovieApplication</string>
+    <string name="nowplaying">NowPlaying</string>
+    <string name="popular">Popular</string>
+    <string name="itemimage">ItemImage</string>
+    <string name="title">Title</string>
 </resources>
