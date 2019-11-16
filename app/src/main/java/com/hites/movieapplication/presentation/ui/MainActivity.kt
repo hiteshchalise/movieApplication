@@ -1,19 +1,23 @@
 package com.hites.movieapplication.presentation.ui
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
 import com.hites.movieapplication.R
 import com.hites.movieapplication.core.NetworkHandler
 import com.hites.movieapplication.domain.model.Movie
 import dagger.android.support.DaggerAppCompatActivity
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class MainActivity : DaggerAppCompatActivity() {
 
@@ -24,6 +28,8 @@ class MainActivity : DaggerAppCompatActivity() {
     lateinit var networkHandler: NetworkHandler
 
     private lateinit var mainViewModel: MainViewModel
+    lateinit var bannerImage: ImageView
+
     private lateinit var popularRecyclerView: RecyclerView
     private lateinit var nowPlayingRecyclerView: RecyclerView
 
@@ -35,6 +41,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
     private var popularMovieList: List<Movie> = ArrayList()
     private var nowPlayingMovieList: List<Movie> = ArrayList()
+    private var bannerList: List<BannerModel> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,29 +49,37 @@ class MainActivity : DaggerAppCompatActivity() {
 
         popularRecyclerView = findViewById(R.id.recyclerViewPopular)
         nowPlayingRecyclerView = findViewById(R.id.recyclerViewNowPlaying)
+        bannerImage = findViewById(R.id.bannerImage)
+
         popularViewManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         nowPlayingViewManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+
         popularViewAdapter = PopularViewAdapter(this) {
             Toast.makeText(this, "Item Clicked: $it", Toast.LENGTH_SHORT).show()
         }
         nowPlayingViewAdapter = NowPlayingViewAdapter(this) {
             Toast.makeText(this, "Item Clicked: $it", Toast.LENGTH_SHORT).show()
         }
+
         popularRecyclerView.layoutManager = popularViewManager
         popularRecyclerView.adapter = popularViewAdapter
+
         nowPlayingRecyclerView.layoutManager = nowPlayingViewManager
         nowPlayingRecyclerView.adapter = nowPlayingViewAdapter
-
         initializeViewModel()
         loadPage()
     }
 
     private fun initializeViewModel() {
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
-        mainViewModel.liveDataNowPlayingList.observe(this, Observer {
-            Log.d("MovieApplication: ", "OnCreate: ${it.size}")
-            nowPlayingMovieList = it
+        mainViewModel.liveDataNowPlayingList.observe(this, Observer { movieList ->
+            Log.d("MovieApplication: ", "OnCreate: ${movieList.size}")
+            nowPlayingMovieList = movieList
+            bannerList = movieList.map {
+                BannerModel(it.id, it.poster_path)
+            }
             nowPlayingViewAdapter.submitList(nowPlayingMovieList)
+            bannerImage.load(bannerList[0].posterPath)
         })
         mainViewModel.failureNowPlayingLiveData.observe(this, Observer {
             Log.e("MovieApplication: ", "Failed: {$it}")
