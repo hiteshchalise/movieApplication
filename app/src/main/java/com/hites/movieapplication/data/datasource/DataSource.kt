@@ -9,13 +9,13 @@ import com.hites.movieapplication.domain.functional.Either
 import retrofit2.Call
 
 interface NowPlayingDataSource{
-    fun getNowPlaying(): Either<Failure, List<NowPlayingMovieDTO>>
+    fun getNowPlaying(cached: Boolean): Either<Failure, List<NowPlayingMovieDTO>>
 }
 interface GetPopularMoviesDataSource{
-    fun getPopularMovies(): Either<Failure, List<PopularMovieDTO>>
+    fun getPopularMovies(cached: Boolean): Either<Failure, List<PopularMovieDTO>>
 }
 interface GetDetailsMoviesDataSource{
-    fun getDetails(id: Int): Either<Failure, MovieDetailsDTO>
+    fun getDetails(id: Int, cached: Boolean): Either<Failure, MovieDetailsDTO>
 }
 
 fun <T> request(

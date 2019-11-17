@@ -14,7 +14,7 @@ class GetPopularRepositoryImpl @Inject constructor(
 ) : GetPopularRepository {
 
     override fun getMovies(cached: Boolean): Either<Failure, List<Movie>> {
-        val popularMovies = dataSource.getPopularMovies()
+        val popularMovies = dataSource.getPopularMovies(cached)
         return mapPopularMoviesDTO(popularMovies)
     }
 

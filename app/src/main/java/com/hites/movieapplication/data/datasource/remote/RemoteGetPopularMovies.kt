@@ -1,5 +1,6 @@
 package com.hites.movieapplication.data.datasource.remote
 
+import android.util.Log
 import com.hites.movieapplication.data.datasource.GetPopularMoviesDataSource
 import com.hites.movieapplication.data.datasource.local.MovieDao
 import com.hites.movieapplication.data.datasource.request
@@ -15,7 +16,16 @@ class RemoteGetPopularMovies @Inject constructor(
     private val movieDao: MovieDao
 ) : GetPopularMoviesDataSource {
 
-    override fun getPopularMovies(): Either<Failure, List<PopularMovieDTO>> {
+    override fun getPopularMovies(cached: Boolean): Either<Failure, List<PopularMovieDTO>> {
+        if (cached) {
+            Log.d("MovieApplication", "getPopularMovies: from cache")
+            val popularMovies = movieDao.getPopularMovies()
+            return when (popularMovies == null) {
+                true -> Either.Left(Failure.NetworkConnection)
+                false -> Either.Right(popularMovies)
+            }
+        }
+
         val responseEither = request(apiService.fetchPopularMovies(), emptyList())
         responseEither.either({}, {
             movieDao.removePopularMovies()

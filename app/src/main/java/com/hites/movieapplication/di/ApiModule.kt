@@ -44,7 +44,7 @@ class ApiModule {
         logging.level = HttpLoggingInterceptor.Level.BODY
 
         val httpClient = OkHttpClient.Builder()
-        httpClient.cache(cache)
+//        httpClient.cache(cache)
         httpClient.addInterceptor(logging)
         httpClient.connectTimeout(30, TimeUnit.SECONDS)
         httpClient.readTimeout(30, TimeUnit.SECONDS)

@@ -27,7 +27,6 @@ class NowPlayingViewAdapter(private val ctx: Context, private val listener: (Int
 
         init {
             itemView.setOnClickListener {
-
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     listener(getId(position))

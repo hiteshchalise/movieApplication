@@ -11,7 +11,7 @@ interface MovieDao {
     fun insertNowPlayingMovies(nowPlayingMovies: List<NowPlayingMovieDTO>)
 
     @Query("SELECT * FROM NowPlayingMovieDTO")
-    fun getNowPlayingMovies(): List<NowPlayingMovieDTO>
+    fun getNowPlayingMovies(): List<NowPlayingMovieDTO>?
 
     @Query("DELETE FROM NowPlayingMovieDTO")
     fun removeNowPlayingMovies()
@@ -20,7 +20,7 @@ interface MovieDao {
     fun insertPopularMovies(nowPlayingMovies: List<PopularMovieDTO>)
 
     @Query("SELECT * FROM PopularMovieDTO")
-    fun getPopularMovies(): List<PopularMovieDTO>
+    fun getPopularMovies(): List<PopularMovieDTO>?
 
     @Query("DELETE FROM PopularMovieDTO")
     fun removePopularMovies()
@@ -29,6 +29,6 @@ interface MovieDao {
     fun insertMovieDetails(movieDetailsDTO: MovieDetailsDTO)
 
     @Query("SELECT * FROM MovieDetailsDTO WHERE id = :id")
-    fun getMovieDetails(id: Int): MovieDetailsDTO
+    fun getMovieDetails(id: Int): MovieDetailsDTO?
 
 }

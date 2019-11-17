@@ -130,7 +130,15 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun loadPage() {
         val networkAvailability: Boolean = networkHandler.isConnected
         Log.d("MovieApplication", "MainActivity: $networkAvailability")
-        mainViewModel.loadNowPlayingList(!networkAvailability)
-        mainViewModel.loadPopularList(!networkAvailability)
+
+        // first load from cache then refresh
+        mainViewModel.loadNowPlayingList(true)
+        mainViewModel.loadPopularList(true)
+
+        if(networkAvailability){
+            mainViewModel.loadNowPlayingList(false)
+            mainViewModel.loadPopularList(false)
+        }
+
     }
 }

@@ -12,8 +12,8 @@ import javax.inject.Inject
 class GetDetailsRepositoryImpl @Inject constructor(
     private val dataSource: GetDetailsMoviesDataSource
 ) : GetDetailsRepository {
-    override fun getDetails(boolean: Boolean, id: Int): Either<Failure, Movie> {
-        val movieDetailsEither =  dataSource.getDetails(id)
+    override fun getDetails(cached: Boolean, id: Int): Either<Failure, Movie> {
+        val movieDetailsEither =  dataSource.getDetails(id, cached)
         return mapMovie(movieDetailsEither)
     }
     fun mapMovie(movieDetailsEither: Either<Failure, MovieDetailsDTO>): Either<Failure, Movie> {
